@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import type { Page } from '../lib/content';
+import { searchIndex } from '../lib/search';
+
+const page: Page = {
+  path: '/search',
+  title: 'Search',
+  metaTitle: 'Search the Laos Guide for Towns, Trains, and Food',
+  description: 'Search.',
+  metaDescription: 'Search this Laos guide for Luang Prabang, Vientiane, the railway, eVisa rules, and Lao dishes to order on a first trip. Start with a town.',
+  lede: 'Search the guide.',
+  schema: 'Article',
+  crumbs: [],
+  facts: [],
+  paragraphs: [],
+  faqs: [],
+};
+
+const items = searchIndex();
+---
+<Base
+  page={page}
+  robots="noindex, follow"
+  documentTitle="Search the Laos Guide for Towns, Trains, and Food"
+  documentDescription="Search this Laos guide for Luang Prabang, Vientiane, the railway, eVisa rules, and Lao dishes to order on a first trip. Start with a town."
+>
+  <article class="section wrap">
+    <h1>Search</h1>
+    <form class="lost-search" action="/search/" role="search">
+      <label class="skip" for="q">Search</label>
+      <input id="q" name="q" type="search" placeholder="Towns, trains, dishes" autocomplete="off" />
+      <button type="submit">Search</button>
+    </form>
+    <ul class="guide-list" id="results">
+      {items.map((item) => (
+        <li data-find={item.text}>
+          <a class="guide-row" href={item.href}>
+            <strong>{item.title}</strong>
+            <span>{item.sub}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </article>
+</Base>
+<script>
+  const input = document.querySelector<HTMLInputElement>('#q');
+  const params = new URLSearchParams(location.search);
+  if (input && params.get('q')) input.value = params.get('q') || '';
+  function apply() {
+    const query = (input?.value || '').trim().toLowerCase();
+    document.querySelectorAll<HTMLElement>('[data-find]').forEach((node) => {
+      const hay = (node.dataset.find || '').toLowerCase();
+      node.hidden = query.length > 0 && !hay.includes(query);
+    });
+  }
+  input?.addEventListener('input', apply);
+  apply();
+</script>

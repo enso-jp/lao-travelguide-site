@@ -1,0 +1,29 @@
+---
+import { formatInline } from '../lib/inline';
+
+export interface Faq {
+  q: string;
+  a: string;
+}
+
+interface Props {
+  items: Faq[];
+}
+
+const { items } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <dl class="faq">
+      {
+        items.map((item) => (
+          <>
+            <dt set:html={formatInline(item.q)} />
+            <dd set:html={formatInline(item.a)} />
+          </>
+        ))
+      }
+    </dl>
+  )
+}

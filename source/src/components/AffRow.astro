@@ -1,0 +1,38 @@
+---
+export interface Affiliate {
+  title: string;
+  kicker: string;
+  body: string;
+  href: string;
+  cta: string;
+  photo?: string;
+  partner?: string;
+}
+interface Props { items: Affiliate[] }
+const { items: raw } = Astro.props;
+const seen = new Set<string>();
+const items = raw.filter((item) => (seen.has(item.href) ? false : (seen.add(item.href), true)));
+---
+{
+  items.length > 0 && (
+    <ul class="aff-list">
+      {items.map((item) => (
+        <li>
+          <a class="aff-row" href={item.href} rel="sponsored noopener" target="_blank" data-partner={item.partner ?? 'stay'}>
+            {item.photo && (
+              <span class="aff-photo">
+                <img src={item.photo} alt="" width="320" height="200" loading="lazy" decoding="async" />
+              </span>
+            )}
+            <span class="aff-copy">
+              <strong>{item.title}</strong>
+              <em>{item.kicker}</em>
+              <p>{item.body}</p>
+              <span class="aff-btn">{item.cta}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}

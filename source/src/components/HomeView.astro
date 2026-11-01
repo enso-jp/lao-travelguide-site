@@ -1,0 +1,126 @@
+---
+import CheckedLine from './CheckedLine.astro';
+import LaosMap from './LaosMap.astro';
+import Photo from './Photo.astro';
+import TripSearch from './TripSearch.astro';
+import { homeMedia } from '../lib/home';
+import { pageHref } from '../lib/site';
+
+const home = homeMedia;
+function dots(n: number): string {
+  return '●'.repeat(n) + '○'.repeat(Math.max(0, 5 - n));
+}
+---
+<div class="home wrap">
+  <CheckedLine path="/" />
+  <div class="home-top">
+    <a class="home-hero home-hero-lead" href={pageHref(home.lead.href)}>
+      <Photo src={home.lead.photo} alt={home.lead.title} priority />
+      <span class="home-hero-copy">
+        <small>{home.lead.kicker}</small>
+        <h1>{home.lead.title}</h1>
+        <span class="home-hero-sub">{home.lead.sub}</span>
+        <em>{home.lead.when}</em>
+        <span class="pill pill-light">See the guide</span>
+      </span>
+    </a>
+    <section class="home-sheet">
+      <div class="sheet-row" aria-label="Featured guides">
+        {home.sheet.map((story) => (
+          <a class="mini-card" href={pageHref(story.href)}>
+            <span class="media"><Photo src={story.photo} alt={story.title} width="208" height="176" /></span>
+            <span class="story-copy">
+              <small>{story.kicker}</small>
+              <strong>{story.title}</strong>
+              <em>{story.when}</em>
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+
+  <section class="home-section">
+    <h2>Where to go in Laos</h2>
+    <div class="region-board">
+      <div class="region-map">
+        <LaosMap />
+      </div>
+    </div>
+    <div class="home-collage">
+      {home.collage.map((story) => (
+        <a class={`collage-tile ${story.spot}`} href={pageHref(story.href)}>
+          <Photo src={story.photo} alt={story.title} />
+          <span class="collage-copy">
+            <small>{story.kicker}</small>
+            <strong>{story.title}</strong>
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="home-section dest-top">
+    <h2>Towns on a first trip</h2>
+    <div class="top-grid">
+      {home.topPlaces.map((place, index) => (
+        <a class="top-card" href={pageHref(place.href)}>
+          <span class="top-photo">
+            <Photo src={place.photo} alt={place.name} />
+            <span class="rank-badge">{index + 1}</span>
+          </span>
+          <span class="top-copy">
+            <strong>
+              {place.name}
+              <span class="edots" aria-label={`${place.dots} of 5`}><span aria-hidden="true">{dots(place.dots)}</span></span>
+            </strong>
+            <em>{place.line}</em>
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="home-section">
+    <h2>Plan the trip</h2>
+    <div class="plan-row">
+      {home.plan.map((tool) => (
+        <a class="plan-card" href={pageHref(tool.href)}>
+          <strong>{tool.title}</strong>
+          <span>{tool.text}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="home-section">
+    <h2>Food, temples, river</h2>
+    <div class="top-grid">
+      {home.interests.map((item) => (
+        <a class="top-card" href={pageHref(item.href)}>
+          <span class="top-photo"><Photo src={item.photo} alt={item.label} /></span>
+          <span class="top-copy"><strong>{item.label}</strong></span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="home-section">
+    <h2>Read next</h2>
+    <div class="story-grid">
+      {home.stories.map((story) => (
+        <a class="story-row" href={pageHref(story.href)}>
+          <img src={story.photo} alt="" width="320" height="200" loading="lazy" decoding="async" />
+          <span>
+            <small>{story.kicker}</small>
+            <strong>{story.title}</strong>
+            <em>{story.when}</em>
+            <p>{story.summary}</p>
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <TripSearch />
+</div>

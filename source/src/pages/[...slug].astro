@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import PageSwitch from '../components/PageSwitch.astro';
+import { allPages, getPage } from '../lib/content';
+
+export function getStaticPaths() {
+  return allPages()
+    .filter((page) => page.path !== '/')
+    .map((page) => ({
+      params: { slug: page.path.replace(/^\//, '') },
+    }));
+}
+
+const slug = (Astro.params.slug ?? '').replace(/\/+$/, '');
+const path = `/${slug}`;
+const page = getPage(path);
+if (!page) throw new Error(`Missing page ${path}`);
+---
+<Base page={page}>
+  <PageSwitch page={page} />
+</Base>

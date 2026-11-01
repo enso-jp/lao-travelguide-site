@@ -1,0 +1,11 @@
+---
+import { checkedLabel, reviewDateFor } from '../lib/review-dates';
+interface Props {
+  path: string;
+}
+const { path } = Astro.props;
+const label = checkedLabel(path);
+const iso = reviewDateFor(path);
+---
+
+{label && <p class="checked-line"><time datetime={iso}>{label}</time></p>}

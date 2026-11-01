@@ -1,0 +1,7 @@
+---
+import PageView from './PageView.astro';
+import type { Page } from '../lib/content';
+interface Props { page: Page }
+const { page } = Astro.props;
+---
+<PageView page={page} />

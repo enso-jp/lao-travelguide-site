@@ -1,0 +1,9 @@
+---
+import FoodHubView from './FoodHubView.astro';
+import HomeView from './HomeView.astro';
+import PageView from './PageView.astro';
+import type { Page } from '../lib/content';
+interface Props { page: Page }
+const { page } = Astro.props;
+---
+{page.path === '/' ? <HomeView /> : page.path === '/lao-food' ? <FoodHubView page={page} /> : <PageView page={page} />}

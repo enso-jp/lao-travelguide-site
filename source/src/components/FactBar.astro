@@ -1,0 +1,24 @@
+---
+export interface Fact {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  facts: Fact[];
+}
+
+const { facts } = Astro.props;
+const cols = Math.min(Math.max(facts.length, 1), 4);
+---
+
+{facts.length > 0 && (
+  <div class="facts" style={`--fact-cols:${cols}`}>
+    {facts.map((fact) => (
+      <div>
+        <span>{fact.label}</span>
+        <strong>{fact.value}</strong>
+      </div>
+    ))}
+  </div>
+)}

@@ -1,0 +1,60 @@
+---
+import { pageHref } from '../lib/site';
+
+export interface Portrait {
+  title: string;
+  href: string;
+  photo: string;
+}
+
+interface Props {
+  label?: string;
+  items: Portrait[];
+}
+
+const { label = 'Related', items } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <div class="portrait-rail" data-carousel>
+      <div class="portrait-row" data-carousel-row tabindex="0" aria-label={label}>
+        {
+          items.map((item) => (
+            <a class="portrait" href={pageHref(item.href)}>
+              <img src={item.photo} alt={item.title} width="640" height="800" loading="lazy" decoding="async" />
+              <span class="portrait-label">
+                <strong>{item.title}</strong>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+      {
+        items.length > 3 && (
+          <>
+            <button class="rail-arrow rail-prev" type="button" data-carousel-prev aria-label="Previous">
+              ‹
+            </button>
+            <button class="rail-arrow rail-next" type="button" data-carousel-next aria-label="Next">
+              ›
+            </button>
+          </>
+        )
+      }
+    </div>
+  )
+}
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((rail) => {
+    const row = rail.querySelector<HTMLElement>('[data-carousel-row]');
+    if (!row) return;
+    rail.querySelector('[data-carousel-prev]')?.addEventListener('click', () => {
+      row.scrollBy({ left: -row.clientWidth * 0.8, behavior: 'smooth' });
+    });
+    rail.querySelector('[data-carousel-next]')?.addEventListener('click', () => {
+      row.scrollBy({ left: row.clientWidth * 0.8, behavior: 'smooth' });
+    });
+  });
+</script>

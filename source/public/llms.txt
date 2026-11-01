@@ -1,0 +1,24 @@
+# Laos Travel Guide
+
+> A Beyond Guide Network publication for a first trip to Laos. Towns, the Laos-China Railway, visa notes, and Lao dishes.
+
+## Destinations
+- [Destinations](https://laos-travelguide.com/destinations/): The towns in this edition
+- [Luang Prabang](https://laos-travelguide.com/luang-prabang/): Temples, Kuang Si, and the night market
+- [Vientiane](https://laos-travelguide.com/vientiane/): That Luang, Patuxai, and Wattay
+- [Vang Vieng](https://laos-travelguide.com/vang-vieng/): Karst lagoons on the railway
+- [4000 Islands](https://laos-travelguide.com/4000-islands/): Don Det, Don Khon, and Khone Phapheng
+- [Pakse](https://laos-travelguide.com/pakse/): Base for Wat Phou and the plateau
+- [Bolaven Plateau](https://laos-travelguide.com/bolaven-plateau/): Tad Fane and Tad Yuang
+- [Nong Khiaw](https://laos-travelguide.com/nong-khiaw/): Viewpoint above the Nam Ou
+
+## Plan
+- [Best time to visit](https://laos-travelguide.com/plan/best-time-to-visit/): Cool months and waterfall season
+- [Visa and eVisa](https://laos-travelguide.com/plan/visa-and-evisa/): 30-day tourist stay and listed ports
+- [Money and SIM](https://laos-travelguide.com/plan/money-and-sim/): Kip, ATMs, and a local SIM
+- [Laos-China Railway](https://laos-travelguide.com/get-there/laos-china-railway/): Vientiane to Luang Prabang
+- [Bangkok to Laos](https://laos-travelguide.com/get-there/bangkok-to-laos/): Flight or sleeper
+- [Hanoi to Laos](https://laos-travelguide.com/get-there/hanoi-to-laos/): Flights to Luang Prabang and Vientiane
+- [Lao food](https://laos-travelguide.com/lao-food/): Fifteen dishes to order first
+- [7 days](https://laos-travelguide.com/itineraries/7-days/): Luang Prabang to Vientiane
+- [10 days](https://laos-travelguide.com/itineraries/10-days/): North first, then Pakse

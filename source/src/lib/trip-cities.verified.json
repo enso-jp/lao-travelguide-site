@@ -1,0 +1,29 @@
+{
+  "verifiedOn": "2026-11-01",
+  "cities": {
+    "vientiane": {
+      "id": 486,
+      "slug": "vientiane",
+      "title": "Hotels in Vientiane",
+      "source": "https://www.trip.com/hotels/vientiane-hotels-list-486/"
+    },
+    "luang-prabang": {
+      "id": 3677,
+      "slug": "luang-prabang",
+      "title": "Hotels in Luang Prabang",
+      "source": "https://www.trip.com/hotels/luang-prabang-hotels-list-3677/"
+    },
+    "vang-vieng": {
+      "id": 35797,
+      "slug": "vang-vieng",
+      "title": "Hotels in Vang Vieng",
+      "source": "https://www.trip.com/hotels/vang-vieng-hotels-list-35797/"
+    },
+    "pakse": {
+      "id": 5607,
+      "slug": "pakse",
+      "title": "Hotels in Pakse",
+      "source": "https://www.trip.com/hotels/pakse-hotels-list-5607/"
+    }
+  }
+}

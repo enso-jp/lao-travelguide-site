@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import { pageHref } from '../lib/site';
+import type { Page } from '../lib/content';
+
+const page: Page = {
+  path: '/404.html',
+  title: 'Page not found',
+  metaTitle: 'This Page Is Missing from the Laos Travel Guide',
+  description: 'Missing page.',
+  metaDescription: 'That address is not a page on this Laos guide. Search for a town, the railway, or a dish, or open the destination list.',
+  lede: 'That URL is not a page on this guide.',
+  schema: 'Article',
+  crumbs: [],
+  facts: [],
+  paragraphs: [],
+  faqs: [],
+};
+
+const hubs = [
+  { href: '/luang-prabang', name: 'Luang Prabang' },
+  { href: '/vientiane', name: 'Vientiane' },
+  { href: '/vang-vieng', name: 'Vang Vieng' },
+  { href: '/pakse', name: 'Pakse' },
+  { href: '/4000-islands', name: '4000 Islands' },
+];
+---
+<Base
+  page={page}
+  robots="noindex, nofollow"
+  siteJsonLdOnly
+  documentTitle="This Page Is Missing from the Laos Travel Guide"
+  documentDescription="That address is not a page on this Laos guide. Search for a town, the railway, or a dish, or open the destination list."
+>
+  <article class="section wrap lost-page">
+    <p class="lost-kicker">404</p>
+    <h1>That page is not here.</h1>
+    <p class="lede">The link may be old or mistyped. Search the guide, or open a town hub.</p>
+    <form class="lost-search" action={pageHref('/search')} role="search">
+      <label class="skip" for="lost-q">Search the guide</label>
+      <input id="lost-q" name="q" type="search" placeholder="Search places and routes" autocomplete="off" />
+      <button type="submit">Search</button>
+    </form>
+    <p class="lost-links">
+      <a href={pageHref('/')}>Homepage</a>
+      <a href={pageHref('/destinations')}>Destinations</a>
+      <a href={pageHref('/itineraries')}>Itineraries</a>
+    </p>
+    <h2>Top hubs</h2>
+    <p class="chips">
+      {hubs.map((hub) => (
+        <a class="chip" href={pageHref(hub.href)}>{hub.name}</a>
+      ))}
+    </p>
+  </article>
+</Base>

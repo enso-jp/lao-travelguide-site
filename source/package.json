@@ -1,0 +1,21 @@
+{
+  "name": "laos-travelguide",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check:content": "node scripts/check-content.mjs && node scripts/check-sentences.mjs",
+    "check:seo": "node scripts/check-built-seo.mjs && node scripts/check-klook.mjs && node scripts/check-trip-keyword.mjs",
+    "check:stay": "node scripts/check-stay-search.mjs",
+    "check:photos": "node scripts/check-unique-photos.mjs",
+    "check:facts": "node scripts/check-facts.mjs",
+    "audit:content": "node scripts/audit-content.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.4.1",
+    "astro": "^5.13.2"
+  }
+}

@@ -1,0 +1,91 @@
+---
+import AffRow from './AffRow.astro';
+import CheckedLine from './CheckedLine.astro';
+import FactBar from './FactBar.astro';
+import FaqList from './FaqList.astro';
+import LaosMap from './LaosMap.astro';
+import Photo from './Photo.astro';
+import PortraitRail from './PortraitRail.astro';
+import TripSearch from './TripSearch.astro';
+import type { Page } from '../lib/content';
+import { formatInline } from '../lib/inline';
+import { pageHref, trailCrumbs } from '../lib/site';
+
+interface Props { page: Page }
+const { page } = Astro.props;
+const trail = trailCrumbs(page);
+---
+<article class="section wrap">
+  {trail.length > 1 && (
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <ol>
+        {trail.map((crumb) => (
+          <li><a href={pageHref(crumb.href)}>{crumb.name}</a></li>
+        ))}
+      </ol>
+    </nav>
+  )}
+  <h1>{page.title}</h1>
+  <CheckedLine path={page.path} />
+  <p class="lede" set:html={formatInline(page.lede)} />
+  {page.chips && page.chips.length > 0 && (
+    <div class="chips">
+      {page.chips.map((chip) => <span class="chip peak">{chip}</span>)}
+    </div>
+  )}
+  {page.photo && (
+    <div class="place-photo">
+      <Photo src={page.photo} alt={page.title} priority />
+    </div>
+  )}
+  <FactBar facts={page.facts} />
+  {page.paragraphs.map((paragraph) => <p set:html={formatInline(paragraph)} />)}
+  {page.showMap && <LaosMap />}
+  {(page.sections || []).map((section) => (
+    <section class="place-section" id={section.id}>
+      <h2>{section.title}</h2>
+      {(section.paragraphs || []).map((paragraph) => <p set:html={formatInline(paragraph)} />)}
+      {section.bullets && section.bullets.length > 0 && (
+        <ul>
+          {section.bullets.map((item) => <li set:html={formatInline(item)} />)}
+        </ul>
+      )}
+      {section.cards && section.cards.length > 0 && (
+        <div class="top-grid">
+          {section.cards.map((item) => (
+            <a class="top-card" href={pageHref(item.href || page.path)}>
+              <span class="top-photo">{item.photo && <Photo src={item.photo} alt={item.title} />}</span>
+              <span class="top-copy">
+                <small>{item.kicker}</small>
+                <strong>{item.title}</strong>
+              </span>
+            </a>
+          ))}
+        </div>
+      )}
+    </section>
+  ))}
+  {page.days && page.days.length > 0 && (
+    <section class="place-section" id="days">
+      <h2>Day by day</h2>
+      <div class="day-grid">
+        {page.days.map((item) => (
+          <article class="day-plan-card">
+            <span class="media"><Photo src={item.photo} alt="" /></span>
+            <h2>Day {item.n}: {item.title}</h2>
+            <p>{item.body}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+  {page.showStay && <TripSearch />}
+  {page.affiliates && <AffRow items={page.affiliates} />}
+  <PortraitRail items={page.portraits || []} label="Related guides" />
+  {page.faqs.length > 0 && (
+    <section id="questions">
+      <h2>Questions</h2>
+      <FaqList items={page.faqs} />
+    </section>
+  )}
+</article>

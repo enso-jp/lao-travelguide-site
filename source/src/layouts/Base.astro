@@ -1,0 +1,164 @@
+---
+import '../styles/global.css';
+import { site, absUrl, pageHref } from '../lib/site';
+import { jsonLdFor, organizationLd, websiteLd } from '../lib/jsonld';
+import { seoDescription, seoTitle } from '../lib/seo';
+import type { Page } from '../lib/content';
+import { NAV_LINKS, NAV_SLOTS } from '../lib/nav';
+
+interface Props {
+  page: Page;
+  robots?: string;
+  siteJsonLdOnly?: boolean;
+  documentTitle?: string;
+  documentDescription?: string;
+}
+
+const { page, robots = 'index, follow, max-image-preview:large', siteJsonLdOnly = false, documentTitle, documentDescription } = Astro.props;
+const url = absUrl(page.path);
+const title = documentTitle ?? seoTitle(page);
+const description = documentDescription ?? seoDescription(page);
+const image = page.photo ? absUrl(page.photo) : absUrl('/photos/luang-prabang.jpg');
+const blocks = siteJsonLdOnly ? [organizationLd(), websiteLd()] : jsonLdFor(page);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="color-scheme" content="light" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Beyond Guide Network" />
+    <meta name="application-name" content={site.shortName} />
+    <meta name="theme-color" content={site.themeColor} />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={url} />
+    <link rel="alternate" hreflang="en" href={url} />
+    <link rel="alternate" hreflang="x-default" href={url} />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    <meta property="og:type" content={page.path === '/' ? 'website' : 'article'} />
+    <meta property="og:site_name" content={site.shortName} />
+    <meta property="og:locale" content={site.locale} />
+    <meta property="og:image" content={image} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-48x48.png" type="image/png" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+    {blocks.map((block) => (
+      <script type="application/ld+json" set:html={JSON.stringify(block)} />
+    ))}
+    <script is:inline async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1054339891561422" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar">
+      <div class="wrap bar">
+        <a class="wordmark" href="/">Laos <span>Guide</span></a>
+        <nav class="desk-nav" aria-label="Sections">
+          {NAV_SLOTS.map((slot) => (
+            <div class="nav-slot">
+              <a href={pageHref(slot.href)}>{slot.label}</a>
+              <div class="nav-panel" aria-label={slot.label}>
+                <div class="nav-panel-inner">
+                  <div class="nav-panel-head">
+                    <a class="nav-see" href={pageHref(slot.href)}>{slot.see}</a>
+                  </div>
+                  <div class="nav-cards cards-3">
+                    {slot.cards.map((item) => (
+                      <a class="nav-card" href={pageHref(item.href)}>
+                        <img src={item.photo} alt={item.name} width="480" height="320" loading="lazy" decoding="async" />
+                        <span>{item.name}</span>
+                      </a>
+                    ))}
+                  </div>
+                  <div class="nav-cols">
+                    {slot.cols.map((col) => (
+                      <div>
+                        <p class="nav-col-title"><a href={pageHref(col.href)}>{col.title}</a></p>
+                        <ul>
+                          {col.links.map((link) => (
+                            <li><a href={pageHref(link.href)}>{link.name}</a></li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+          {NAV_LINKS.map((link) => (
+            <a href={pageHref(link.href)}>{link.label}</a>
+          ))}
+        </nav>
+        <button class="bar-icon search-toggle" type="button" data-search-toggle aria-label="Search" aria-expanded="false" aria-controls="site-search">Search</button>
+        <button class="bar-icon menu-toggle" type="button" data-menu aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      </div>
+      <button class="phone-backdrop" type="button" data-menu tabindex="-1" aria-label="Close menu"></button>
+      <div id="site-menu" class="phone-menu" hidden>
+        {NAV_SLOTS.map((slot) => <a href={pageHref(slot.href)}>{slot.label}</a>)}
+        {NAV_LINKS.map((link) => <a href={pageHref(link.href)}>{link.label}</a>)}
+        <a href={pageHref('/get-there')}>Get there</a>
+      </div>
+      <div id="site-search" class="search-pop" hidden>
+        <form class="search-form wrap" action={pageHref('/search')} role="search">
+          <label class="skip" for="q">Search</label>
+          <input id="q" name="q" type="search" placeholder="Search places and routes" autocomplete="off" />
+          <div id="search-panel" class="search-panel" hidden></div>
+        </form>
+      </div>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap footer-grid">
+        <div class="footer-col footer-brand">
+          <span class="footer-pub-badge">A Beyond Guide Network Publication</span>
+          <strong>{site.name}</strong>
+          <p>Independent travel reference for a first trip to Laos.</p>
+          <p class="footer-trust-links">
+            <a href={pageHref('/about')}>About</a>
+            · <a href={pageHref('/about/ratings')}>Ratings</a>
+            · <a href={pageHref('/privacy') + '#booking'}>Affiliate disclosure</a>
+          </p>
+        </div>
+        <div class="footer-col">
+          <span>Plan</span>
+          <a href={pageHref('/plan/best-time-to-visit')}>Best time to visit</a>
+          <a href={pageHref('/plan/visa-and-evisa')}>Visa and eVisa</a>
+          <a href={pageHref('/plan/money-and-sim')}>Money and SIM</a>
+          <a href={pageHref('/get-there/laos-china-railway')}>Laos-China Railway</a>
+        </div>
+        <div class="footer-col">
+          <span>Explore</span>
+          <a href={pageHref('/destinations')}>Destinations</a>
+          <a href={pageHref('/attractions')}>Attractions</a>
+          <a href={pageHref('/lao-food')}>Lao food</a>
+          <a href={pageHref('/itineraries')}>Itineraries</a>
+        </div>
+        <div class="footer-col footer-sister">
+          <span class="footer-sister-head">Network</span>
+          <a href="https://thailand-travelguide.com/" target="_blank" rel="noopener">Thailand guide</a>
+          <a href="https://vietnam-travelguide.com/" target="_blank" rel="noopener">Vietnam guide</a>
+        </div>
+      </div>
+      <div class="wrap footer-legal">
+        <p class="footer-copyright">© 2026 Beyond Guide Network.</p>
+      </div>
+    </footer>
+    <script src="../scripts/site.ts"></script>
+  </body>
+</html>
